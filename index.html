@@ -1,0 +1,50 @@
+<!-DOCTYPE HTML-->
+<html>
+<head>
+<link rel="stylesheet" href="css/jquery.mobile-1.4.5.css" type="text/css"/>
+<link rel="stylesheet" href="css/jquery.mobile.theme-1.4.5.min.css" type="text/css"  />
+<link rel="stylesheet" href="css/jquery.mobile.structure-1.4.5.min.css" type="text/css" />
+<script type="text/javascript" src="phonegap.js"></script>
+<script type="text/javascript" src="js/jquery-2.2.0.min.js" ></script>
+<script type="text/javascript" src="js/jquery.mobile-1.4.5.min.js" ></script>
+<script type="text/javascript">
+opciones={maximumage:500000, enableHighAccuracy:true,timeout:5000};
+
+document.addEventListener("deviceready", function (){
+
+	$("#btnObtCoords").tap(function (){
+		if(navigator.geolocation){
+			navigator.geolocation.getCurrentPosition(exito, falla, opciones);
+		   function exito(ubicacion){
+			$("#txtLatitud").val(ubicacion.coords.latitude);
+			$("#txtLongitud").val(ubicacion.coords.longitude);
+			//$("#datos").html("<p> Latitude: "+ubicacion.coords.latitude+"</p><p>Longitud: "+ubicacion.coords.longitude+"</p>");
+		   }
+
+		   function falla(error){
+			navigator.notification("Error al obtener las coordenadas: "+error);
+		   }
+		}else{
+	           navigator.notification("Su dispositivo no tiene soporte de geolocalización");
+		}
+	});
+}, false);
+</script> 
+</head>
+<body>
+<div data-role="page" id="principal">
+	<div data-role="header">
+		<h1>Mi ubicación</h1>
+	</div>
+	<div data-role="content">
+		<input type="text" id="txtLatitud" placeholder="Latitud" />
+		<input type="text" id="txtLongitud" placeholder="Longitud" />
+		<input type="button" id="btnObtCoords" value="Obtener cordenadas" />	
+		<!--div id="datos"></div-->
+  	</div>
+	<div data-role="footer">
+     		<p>pie de la aplicación</p>
+	</div>
+</div>
+</body>
+</html>
